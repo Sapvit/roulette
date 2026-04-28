@@ -21,66 +21,90 @@ $groups = [
     ]
 ];
 
+// Обновленное форматирование
+function formatProb($num) {
+    if ($num < 0.000001) return "< 0.000001%";
+    return number_format($num, 4, '.', '') . '%';
+}
+
+// Новая функция для вывода "Ожидания"
+function formatExpectation($break) {
+    // Если разница с 100% ничтожна (например, 99.9999999)
+    if ($break > 99.99 && $break < 100) {
+        return "> 99.99%";
+    }
+    // Если вдруг из-за точности float получилось ровно 100 или больше
+    if ($break >= 100) {
+        return "> 99.99%";
+    }
+    return number_format($break, 2, '.', '') . '%';
+}
+
 function calculateProbabilities($history, $groups) {
     $stats = [];
-    $totalSpins = count($history);
-
     foreach ($groups as $category => $subgroups) {
         foreach ($subgroups as $name => $numbers) {
-            // Считаем текущую серию (сколько раз подряд это событие идет сейчас)
-            $currentStreak = 0;
+            $streak = 0;
             foreach ($history as $num) {
-                if (in_array($num, $numbers)) {
-                    $currentStreak++;
-                } else {
-                    break; 
-                }
+                if (in_array($num, $numbers)) $streak++;
+                else break;
             }
 
-            // Вероятность события (p)
             $p = count($numbers) / 37;
-            
-            // Вероятность, что серия из (Streak + 1) произойдет
-            // Формула: p ^ (n + 1) * 100
-            $probNext = pow($p, $currentStreak + 1) * 100;
+            $probContinue = pow($p, $streak + 1) * 100;
+            $probBreak = 100 - $probContinue;
 
             $stats[] = [
                 'category' => $category,
                 'name' => $name,
-                'streak' => $currentStreak,
-                'prob' => round($probNext, 4)
+                'streak' => $streak,
+                'prob' => $probContinue,
+                'break' => $probBreak
             ];
         }
     }
-
-    // Сортировка: чем меньше вероятность продолжения серии, тем "интереснее" нам это событие
-    usort($stats, function($a, $b) {
-        return $a['prob'] <=> $b['prob'];
-    });
-
     return $stats;
 }
 
 function getIndividualNumbersStats($history) {
     $stats = [];
     for ($i = 0; $i <= 36; $i++) {
-        $currentStreak = 0;
-        foreach ($history as $num) {
-            if ($num == $i) {
-                $currentStreak++;
-            } else {
-                break;
-            }
+        $sigma = count(array_keys($history, $i));
+        
+        $lastSeen = -1;
+        foreach ($history as $index => $num) {
+            if ($num == $i) { $lastSeen = $index; break; }
         }
         
-        $p = 1 / 37;
-        $probNext = pow($p, $currentStreak + 1) * 100;
-        
+        $streak = 0;
+        foreach ($history as $num) {
+            if ($num == $i) $streak++;
+            else break;
+        }
+
+        $probNext = pow(1/37, $streak + 1) * 100;
+
         $stats[] = [
             'number' => $i,
-            'streak' => $currentStreak,
-            'prob' => round($probNext, 6)
+            'sigma' => $sigma,
+            // Заменяем прочерк на красивую бесконечность
+            'lastSeen' => ($lastSeen === -1) ? '&infin;' : $lastSeen, 
+            'prob' => $probNext
         ];
     }
     return $stats;
+}
+
+/*
+function getAnomalyClass($break) {
+    if ($break > 99.9) return 'anomaly-extreme'; // Почти невероятно
+    if ($break > 95) return 'anomaly-high';    // Очень сильная серия
+    return '';
+}
+*/
+
+function getAnomalyClass($break) {
+    if ($break >= 90) return 'risk-red';      // Аномалия! Струна натянута
+    if ($break >= 70) return 'risk-orange';   // Внимание, серия затянулась
+    return 'risk-green';                      // Норма
 }

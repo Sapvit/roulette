@@ -1,5 +1,5 @@
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: #eee; margin: 0; padding: 20px; }
-.main-layout { display: grid; grid-template-columns: 250px 1fr 300px; gap: 20px; max-width: 1600px; margin: 0 auto; }
+.main-layout { display: grid; grid-template-columns: 250px 1fr 300px; gap: 20px; max-width: 1600px; margin: 0 auto; align-items: start; }
 
 /* Общие блоки */
 .panel { background: #2d2d2d; border-radius: 12px; padding: 20px; border: 1px solid #444; }
@@ -25,3 +25,101 @@ input[type="number"] { width: 100%; padding: 12px; box-sizing: border-box; backg
 .num-badge { display: inline-block; width: 25px; height: 25px; line-height: 25px; text-align: center; border-radius: 50%; background: #444; font-weight: bold; }
 
 .history-item { font-size: 1.2rem; padding: 5px; text-align: center; background: #3d3d3d; margin-bottom: 4px; border-radius: 4px; }
+
+/* Убираем стрелки в поле ввода */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Обновленный ввод числа без стрелок */
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    background: #1a1a1a;
+    border: 1px solid #555;
+    color: #fff;
+    font-size: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    
+    /* Стандартное свойство */
+    appearance: none;
+    /* Вендорные префиксы для совместимости */
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+/* Убираем стрелки в Webkit браузерах (Chrome, Safari, Edge) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Стили для таблицы */
+.numbers-table th a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    background: #444;
+    transition: background 0.2s;
+}
+
+.numbers-table th a:hover {
+    background: #555;
+}
+
+/* Правая панель с таблицей */
+.numbers-table-container {
+    max-height: 80vh; /* 80% высоты экрана */
+    overflow-y: auto;
+}
+
+/* Панель ввода целиком */
+.input-panel {
+    display: flex;
+    flex-direction: column;
+    height: 85vh; /* Ограничиваем высоту всей левой колонки */
+}
+
+/* Статичная часть (инпут и кнопки) */
+.input-static {
+    flex-shrink: 0; /* Не дает кнопкам сжиматься */
+    margin-bottom: 20px;
+}
+
+/* Скроллируемая история */
+.history-list { 
+    flex-grow: 1; /* Занимает всё оставшееся место */
+    overflow-y: auto; 
+    padding-right: 5px;
+    border-top: 2px solid #444;
+    padding-top: 15px;
+}
+
+/* Красивый скроллбар для истории */
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-thumb { background: #555; border-radius: 10px; }
+
+/* Раскраска рисков-аномалий */
+.anomaly-high { color: #f39c12; font-weight: bold; }   /* Оранжевый */
+.anomaly-extreme { color: #ff4d4d; font-weight: bold; text-shadow: 0 0 5px rgba(255,0,0,0.3); } /* Красный */
+
+/* Цвета риска: светофор */
+.risk-green { color: #2ecc71; }
+.risk-orange { color: #f39c12; font-weight: bold; }
+.risk-red { 
+    color: #e74c3c; 
+    font-weight: bold; 
+    text-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+    animation: pulse 2s infinite; 
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
