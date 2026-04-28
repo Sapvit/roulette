@@ -1,0 +1,10 @@
+body { font-family: sans-serif; background: #222; color: #ddd; display: flex; justify-content: center; padding: 20px; }
+.container { display: grid; grid-template-columns: 300px 1fr; gap: 30px; width: 1000px; }
+.input-section { background: #333; padding: 20px; border-radius: 10px; }
+.results-section { background: #333; padding: 20px; border-radius: 10px; }
+input[type="number"] { width: 100%; padding: 10px; font-size: 1.2rem; margin-bottom: 10px; border-radius: 5px; border: none; }
+button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px; }
+.history-list { margin-top: 20px; max-height: 400px; overflow-y: auto; }
+.history-item { padding: 8px; border-bottom: 1px solid #444; text-align: center; font-weight: bold; }
+.stat-card { background: #444; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; }
+.prob-low { color: #ff4d4d; font-weight: bold; } /* Низкая вероятность продолжения серии */
