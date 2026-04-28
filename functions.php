@@ -60,3 +60,27 @@ function calculateProbabilities($history, $groups) {
 
     return $stats;
 }
+
+function getIndividualNumbersStats($history) {
+    $stats = [];
+    for ($i = 0; $i <= 36; $i++) {
+        $currentStreak = 0;
+        foreach ($history as $num) {
+            if ($num == $i) {
+                $currentStreak++;
+            } else {
+                break;
+            }
+        }
+        
+        $p = 1 / 37;
+        $probNext = pow($p, $currentStreak + 1) * 100;
+        
+        $stats[] = [
+            'number' => $i,
+            'streak' => $currentStreak,
+            'prob' => round($probNext, 6)
+        ];
+    }
+    return $stats;
+}

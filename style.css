@@ -1,10 +1,27 @@
-body { font-family: sans-serif; background: #222; color: #ddd; display: flex; justify-content: center; padding: 20px; }
-.container { display: grid; grid-template-columns: 300px 1fr; gap: 30px; width: 1000px; }
-.input-section { background: #333; padding: 20px; border-radius: 10px; }
-.results-section { background: #333; padding: 20px; border-radius: 10px; }
-input[type="number"] { width: 100%; padding: 10px; font-size: 1.2rem; margin-bottom: 10px; border-radius: 5px; border: none; }
-button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px; }
-.history-list { margin-top: 20px; max-height: 400px; overflow-y: auto; }
-.history-item { padding: 8px; border-bottom: 1px solid #444; text-align: center; font-weight: bold; }
-.stat-card { background: #444; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; }
-.prob-low { color: #ff4d4d; font-weight: bold; } /* Низкая вероятность продолжения серии */
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: #eee; margin: 0; padding: 20px; }
+.main-layout { display: grid; grid-template-columns: 250px 1fr 300px; gap: 20px; max-width: 1600px; margin: 0 auto; }
+
+/* Общие блоки */
+.panel { background: #2d2d2d; border-radius: 12px; padding: 20px; border: 1px solid #444; }
+h2 { font-size: 1.1rem; margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 10px; color: #aaa; }
+
+/* Колонка ввода */
+input[type="number"] { width: 100%; padding: 12px; box-sizing: border-box; background: #1a1a1a; border: 1px solid #555; color: #fff; font-size: 1.5rem; border-radius: 6px; margin-bottom: 10px; }
+.btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 8px; }
+.btn-add { background: #28a745; color: white; }
+.btn-clear { background: #c82333; color: white; }
+
+/* Центральная колонка: Сетки категорий */
+.category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.stat-group { background: #363636; border-radius: 8px; padding: 15px; }
+.stat-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #444; font-size: 0.9rem; }
+.stat-row:last-child { border-bottom: none; }
+.val-prob { color: #f39c12; font-family: monospace; }
+
+/* Правая колонка: Таблица чисел */
+.numbers-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.numbers-table th { cursor: pointer; background: #333; text-align: left; padding: 8px; }
+.numbers-table td { padding: 6px 8px; border-bottom: 1px solid #444; }
+.num-badge { display: inline-block; width: 25px; height: 25px; line-height: 25px; text-align: center; border-radius: 50%; background: #444; font-weight: bold; }
+
+.history-item { font-size: 1.2rem; padding: 5px; text-align: center; background: #3d3d3d; margin-bottom: 4px; border-radius: 4px; }
